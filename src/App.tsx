@@ -13,8 +13,13 @@ function App() {
     );
 }
 
-function Clock(props: { date: Date }) {
-    return (<div><h1>Привіт, світе!</h1>      <h2>Зараз {props.date.toLocaleTimeString()}.</h2></div>)
+type ClockProps = { date: Date };
+
+class Clock extends React.Component<ClockProps, {}>{
+
+    render() {
+        return (<div><h1>Привіт, світе!</h1>      <h2>Зараз {this.props.date.toLocaleTimeString()}.</h2></div>)
+    }
 }
 
 function tick() {
