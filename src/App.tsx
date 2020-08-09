@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 
-function getName(message: string): number {
+function getNumber(message: string): number {
     let result = prompt(message);
     if (result == null)
         return 0
-    return Number(result);
+    return Number(result);//Work even if user enter not number
 }
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
     );
 }
 
-let time = getName("Укажите врея для отсчёта?")
+let time = getNumber("Укажите врея для отсчёта?")
 
 function tick() {
     let element = <p>Время вышло</p>
