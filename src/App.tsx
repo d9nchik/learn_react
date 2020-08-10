@@ -1,14 +1,29 @@
 import React from 'react';
 import './App.css';
 
-function handleClick(e: React.SyntheticEvent) {
-    e.preventDefault()
-    console.log("You clicked on link")
+
+class Toggle extends React.Component<any, { isOn: boolean }> {
+
+    constructor(props: Readonly<undefined>) {
+        super(props);
+        this.state = {isOn: true}
+
+        //this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick = () => {
+        this.setState(state => ({isOn: !state.isOn}))
+    }
+
+
+    render() {
+        return <button onClick={this.handleClick}>{this.state.isOn ? "ON" : "OFF"}</button>
+    }
 }
 
-function App() {
-    return <a href="https://google.com" onClick={handleClick}>Click me</a>
 
+function App() {
+    return <Toggle/>
 }
 
 export default App;
