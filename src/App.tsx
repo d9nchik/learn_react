@@ -1,29 +1,28 @@
 import React from 'react';
 import './App.css';
 
-
-class Toggle extends React.Component<any, { isOn: boolean }> {
-
-    constructor(props: Readonly<undefined>) {
-        super(props);
-        this.state = {isOn: true}
-
-        //this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick = () => {
-        this.setState(state => ({isOn: !state.isOn}))
-    }
-
-
-    render() {
-        return <button onClick={this.handleClick}>{this.state.isOn ? "ON" : "OFF"}</button>
-    }
+function UserGreeting() {
+    return <h1>З поверненням!</h1>;
 }
 
+function GuestGreeting() {
+    return <h1>Зареєструйтеся, будь-ласка.</h1>;
+}
+
+type greet = {
+    isLoggedIn: boolean
+}
+
+function Greeting(props: greet) {
+    const isLoggedIn = props.isLoggedIn;
+    if (isLoggedIn) {
+        return <UserGreeting/>;
+    }
+    return <GuestGreeting/>;
+}
 
 function App() {
-    return <Toggle/>
+    return <Greeting isLoggedIn={true}/>
 }
 
 export default App;
