@@ -1,17 +1,34 @@
 import React from 'react';
 import './App.css';
 
-const numbers = [1, 2, 3, 4, 5];
+class NameForm extends React.Component<any, {value: string}> {
+    constructor(props: any) {
+        super(props);
+        this.state = {value: ''};
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-function NumberList(props: { numbers: number[] }) {
-    const numbers = props.numbers;
-    const listItems = numbers.map((number: number) => <li key={number.toString()}>{number}</li>);
-    return (
-        <ul>{listItems}</ul>);
+    handleChange(event: React.FormEvent<HTMLInputElement>) {    this.setState({value: event.currentTarget.value});  }
+    handleSubmit(event: React.SyntheticEvent) {
+        alert('Ім\'я, що було надіслано: ' + this.state.value);
+        event.preventDefault();
+    }
+
+    render() {
+        return (
+            <form onSubmit={this.handleSubmit}>
+                <label>
+                    Ім'я:
+                    <input type="text" value={this.state.value} onChange={this.handleChange} />        </label>
+                <input type="submit" value="Надіслати" />
+            </form>
+        );
+    }
 }
 
 function App() {
-    return <NumberList numbers={numbers}/>
+    return <NameForm/>
 }
 
 export default App;
