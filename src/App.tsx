@@ -1,34 +1,38 @@
 import React from 'react';
 import './App.css';
 
-class NameForm extends React.Component<any, {value: string}> {
+
+function BoilingVerdict(props: { celsius: number }) {
+    if (props.celsius >= 100) {
+        return <p>Вода закипить.</p>;
+    }
+    return <p>Вода не закипить.</p>;
+}
+
+class Calculator extends React.Component<any, { temperature: string }> {
     constructor(props: any) {
         super(props);
-        this.state = {value: ''};
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = {temperature: ''};
     }
 
-    handleChange(event: React.FormEvent<HTMLInputElement>) {    this.setState({value: event.currentTarget.value});  }
-    handleSubmit(event: React.SyntheticEvent) {
-        alert('Ім\'я, що було надіслано: ' + this.state.value);
-        event.preventDefault();
+    handleChange(e: React.FormEvent<HTMLInputElement>) {
+        this.setState({temperature: e.currentTarget.value});
     }
 
     render() {
+        const temperature = this.state.temperature;
         return (
-            <form onSubmit={this.handleSubmit}>
-                <label>
-                    Ім'я:
-                    <input type="text" value={this.state.value} onChange={this.handleChange} />        </label>
-                <input type="submit" value="Надіслати" />
-            </form>
+            <fieldset>
+                <legend>Введіть температуру в градусах Цельсія:</legend>
+                <input value={temperature} onChange={this.handleChange}/> <BoilingVerdict
+                celsius={parseFloat(temperature)}/></fieldset>
         );
     }
 }
 
 function App() {
-    return <NameForm/>
+    return <Calculator/>
 }
 
 export default App;
