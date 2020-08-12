@@ -9,13 +9,34 @@ function BoilingVerdict(props: { celsius: number }) {
     return <p>Вода не закипить.</p>;
 }
 
-class Calculator extends React.Component<any, { temperature: string }> {
+class Calculator extends React.Component<any, { temperature: string, scale: 'c' | 'f' }> {
+
+
+    constructor(props: Readonly<any>) {
+        super(props);
+        this.handleCelsiusChange = this.handleCelsiusChange.bind(this);
+        this.handleFahrenheitChange = this.handleFahrenheitChange.bind(this);
+        this.state = {temperature: '', scale: "c"}
+    }
+
+    handleCelsiusChange(temperature: string) {
+        this.setState({scale: 'c', temperature});
+    }
+
+    handleFahrenheitChange(temperature: string) {
+        this.setState({scale: 'f', temperature});
+    }
 
     render() {
+        const scale = this.state.scale;
+        const temperature = this.state.temperature;
+        const celsius = scale === 'f' ? tryConvert(temperature, toCelsius) : temperature;
+        const fahrenheit = scale === 'c' ? tryConvert(temperature, toFahrenheit) : temperature;
         return (
             <div>
-                <TemperatureInput scale="c"/>
-                <TemperatureInput scale="f"/>
+                <TemperatureInput scale="c" temperature={celsius} onTemperatureChange={this.handleCelsiusChange}/>
+                <TemperatureInput scale="f" temperature={fahrenheit} onTemperatureChange={this.handleFahrenheitChange}/>
+                <BoilingVerdict celsius={parseFloat(celsius)}/>
             </div>
         );
     }
@@ -23,7 +44,7 @@ class Calculator extends React.Component<any, { temperature: string }> {
 
 const scaleNames = {c: 'Цельсій', f: 'Фаренгейт'};
 
-class TemperatureInput extends React.Component<{ scale: 'c' | 'f' }, { temperature: string }> {
+class TemperatureInput extends React.Component<{ scale: 'c' | 'f', temperature: string, onTemperatureChange: (number: string) => void }, {}> {
     constructor(props: any) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -31,11 +52,11 @@ class TemperatureInput extends React.Component<{ scale: 'c' | 'f' }, { temperatu
     }
 
     handleChange(e: React.FormEvent<HTMLInputElement>) {
-        this.setState({temperature: e.currentTarget.value});
+        this.props.onTemperatureChange(e.currentTarget.value)
     }
 
     render() {
-        const temperature = this.state.temperature;
+        const temperature = this.props.temperature;
         const scale = this.props.scale;
         return (
             <fieldset>
